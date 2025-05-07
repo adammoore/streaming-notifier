@@ -2,6 +2,7 @@
   "name": "streaming-notifier",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://streaming-notifier.vercel.app",
   "scripts": {
     "start": "react-scripts start",
     "build": "CI=false react-scripts build",

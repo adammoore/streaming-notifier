@@ -15,12 +15,28 @@
       "dest": "/api/$1"
     },
     {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/icons/(.*)",
+      "dest": "/icons/$1"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/manifest.json"
+    },
+    {
       "src": "/service-worker.js",
       "headers": {
         "cache-control": "public, max-age=0, must-revalidate",
         "service-worker": "script"
       },
       "dest": "/service-worker.js"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|gif|svg|ico))",
+      "dest": "/$1"
     },
     {
       "src": "/(.*)",

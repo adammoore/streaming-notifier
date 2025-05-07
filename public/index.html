@@ -18,17 +18,17 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+  <!-- Ensure content loads first, then register service worker -->
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(registration => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }).catch(error => {
-            console.error('ServiceWorker registration failed: ', error);
-          });
-      });
-    }
+    // Defer service worker registration after page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load service worker fix script after a slight delay to ensure main content loads first
+      setTimeout(function() {
+        var script = document.createElement('script');
+        script.src = '/sw-fix.js';
+        document.body.appendChild(script);
+      }, 1000); 
+    });
   </script>
 </body>
 </html>
