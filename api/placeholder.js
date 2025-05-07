@@ -1,7 +1,20 @@
+/**
+ * Dynamic Image Placeholder API
+ * 
+ * This serverless function generates SVG placeholders for missing images.
+ * It's particularly useful when movie/TV show posters are not available from TMDB.
+ * 
+ * @param {Object} req - The HTTP request object
+ * @param {Object} req.query - Query parameters
+ * @param {string} req.query.width - The desired width of the placeholder (default: 150)
+ * @param {string} req.query.height - The desired height of the placeholder (default: 225)
+ * @param {Object} res - The HTTP response object
+ */
 export default function handler(req, res) {
+  // Extract dimensions from query parameters
   const { width, height } = req.query;
   
-  // Set content type to svg
+  // Set content type to SVG to ensure proper rendering
   res.setHeader('Content-Type', 'image/svg+xml');
   
   // Create a simple SVG placeholder

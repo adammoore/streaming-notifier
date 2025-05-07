@@ -1,8 +1,21 @@
-// src/components/StreamingNotifier.js
+/**
+ * StreamingNotifier.js
+ * 
+ * Main component for the UK Streaming Notifier application.
+ * Provides functionality to search for movies and TV shows,
+ * track their availability on streaming services, and receive
+ * notifications when new content becomes available.
+ * 
+ * @author Adam Moore <moore.adam@gmail.com>
+ */
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Bell, Plus, Trash2, Check, AlertCircle, Film, RefreshCw, Search, Video, Tv } from 'lucide-react';
 
-// UK Streaming Services with TMDB Watch Provider IDs
+/**
+ * UK Streaming Services configuration with TMDB Watch Provider IDs
+ * These IDs are used to map TMDB provider data to our supported services
+ */
 const streamingServices = [
   { id: 'netflix', name: 'Netflix', color: 'bg-red-600', tmdbId: 8 },
   { id: 'prime', name: 'Amazon Prime Video', color: 'bg-indigo-600', tmdbId: 9 },
@@ -13,21 +26,34 @@ const streamingServices = [
   { id: 'all', name: 'All Services', color: 'bg-gray-500', tmdbId: 'all' }
 ];
 
+/**
+ * StreamingNotifier Component
+ * The main functional component that manages the application state and UI
+ */
 const StreamingNotifier = () => {
+  // User's saved watchlist - persisted in localStorage
   const [watchlist, setWatchlist] = useState(() => {
     const saved = localStorage.getItem('watchlist');
     return saved ? JSON.parse(saved) : [];
   });
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [contentType, setContentType] = useState('all');
-  const [notifications, setNotifications] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('search');
-  const [upcomingMovies, setUpcomingMovies] = useState([]);
-  const [pushSubscription, setPushSubscription] = useState(null);
+  
+  // Search functionality states
+  const [searchQuery, setSearchQuery] = useState(''); // User's search input
+  const [searchResults, setSearchResults] = useState([]); // Results from TMDB API
+  const [contentType, setContentType] = useState('all'); // Filter: 'all', 'tv', or 'movie'
+  
+  // UI state management
+  const [notifications, setNotifications] = useState([]); // In-app notifications
+  const [showForm, setShowForm] = useState(false); // Toggle search form visibility
+  const [loading, setLoading] = useState(false); // Loading indicators
+  const [error, setError] = useState(''); // Error messages
+  const [activeTab, setActiveTab] = useState('search'); // Current active tab
+  
+  // Content data
+  const [upcomingMovies, setUpcomingMovies] = useState([]); // Upcoming movie releases
+  
+  // Push notification state
+  const [pushSubscription, setPushSubscription] = useState(null); // Browser push subscription
 
   // Initialize push notifications
   useEffect(() => {

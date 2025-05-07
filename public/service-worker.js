@@ -1,12 +1,26 @@
+/**
+ * Service Worker for UK Streaming Notifier
+ * 
+ * This service worker provides offline functionality and handles push notifications.
+ * It implements a cache-first strategy for essential assets and handles push events
+ * to display notifications to the user.
+ * 
+ * @version 2.0
+ * @see https://developers.google.com/web/fundamentals/primers/service-workers
+ */
+
+// Cache name includes version to facilitate cache updates
 const CACHE_NAME = 'streaming-notifier-v2';
+
+// List of URLs to cache for offline access
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/static/js/main.chunk.js',
-  '/static/js/bundle.js',
-  '/static/css/main.chunk.css',
-  '/api/manifest',
-  '/icons/icon-192x192.png'
+  '/', // Root path
+  '/index.html', // Main HTML file
+  '/static/js/main.chunk.js', // Main JavaScript bundle
+  '/static/js/bundle.js', // Additional JavaScript bundle
+  '/static/css/main.chunk.css', // CSS styles
+  '/api/manifest', // Web app manifest (served via API)
+  '/icons/icon-192x192.png' // Main app icon
 ];
 
 self.addEventListener('install', event => {
