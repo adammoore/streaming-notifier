@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Bell, Plus, Trash2, Check, AlertCircle, Film, Calendar, Clock, RefreshCw, Search, ExternalLink, Video, Tv } from 'lucide-react';
+// src/components/StreamingNotifier.js
+import React, { useState, useEffect, useCallback } from 'react';
+import { Bell, Plus, Trash2, Check, AlertCircle, Film, RefreshCw, Search, Video, Tv } from 'lucide-react';
 
 // UK Streaming Services with TMDB Watch Provider IDs
 const streamingServices = [
@@ -19,7 +20,6 @@ const StreamingNotifier = () => {
   });
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedService, setSelectedService] = useState('all');
   const [contentType, setContentType] = useState('all');
   const [notifications, setNotifications] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -63,7 +63,7 @@ const StreamingNotifier = () => {
       const registration = await navigator.serviceWorker.ready;
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: process.env.REACT_APP_VAPID_PUBLIC_KEY
+        applicationServerKey: process.env.VAPID_PUBLIC_KEY || process.env.REACT_APP_VAPID_PUBLIC_KEY
       });
       
       setPushSubscription(subscription);
@@ -218,7 +218,8 @@ const StreamingNotifier = () => {
     setWatchlist(watchlist.filter(item => item.id !== id));
   };
 
-  const checkForUpdates = async () => {
+  // Using useCallback to fix the dependency issue
+  const checkForUpdates = useCallback(async () => {
     setLoading(true);
     
     try {
@@ -320,7 +321,7 @@ const StreamingNotifier = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [watchlist, pushSubscription, setNotifications, setError, setLoading]);
 
   useEffect(() => {
     if (activeTab === 'upcoming') {
@@ -328,11 +329,11 @@ const StreamingNotifier = () => {
     }
   }, [activeTab]);
 
-  // Check for updates periodically
+  // Check for updates periodically - now with proper dependency
   useEffect(() => {
     const interval = setInterval(checkForUpdates, 60 * 60 * 1000); // Every hour
     return () => clearInterval(interval);
-  }, [watchlist]);
+  }, [checkForUpdates]);
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
