@@ -30,6 +30,7 @@
   "env": {
     "TMDB_API_KEY": "@tmdb_api_key",
     "VAPID_PUBLIC_KEY": "@vapid_public_key",
-    "VAPID_PRIVATE_KEY": "@vapid_private_key"
+    "VAPID_PRIVATE_KEY": "@vapid_private_key",
+    "REACT_APP_VAPID_PUBLIC_KEY": "@vapid_public_key"
   }
 }
