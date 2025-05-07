@@ -1,11 +1,11 @@
-const CACHE_NAME = 'streaming-notifier-v1';
+const CACHE_NAME = 'streaming-notifier-v2';
 const urlsToCache = [
   '/',
   '/index.html',
   '/static/js/main.chunk.js',
   '/static/js/bundle.js',
   '/static/css/main.chunk.css',
-  '/manifest.json',
+  '/api/manifest',
   '/icons/icon-192x192.png'
 ];
 

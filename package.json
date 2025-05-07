@@ -5,7 +5,7 @@
   "homepage": "https://streaming-notifier.vercel.app",
   "scripts": {
     "start": "react-scripts start",
-    "build": "CI=false react-scripts build",
+    "build": "CI=false react-scripts build && node build-script.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "vercel-build": "CI=false npm run build"

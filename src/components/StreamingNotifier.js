@@ -61,9 +61,19 @@ const StreamingNotifier = () => {
   const subscribeToNotifications = async () => {
     try {
       const registration = await navigator.serviceWorker.ready;
+      // Get the VAPID key from environment variables
+      const vapidKey = process.env.VAPID_PUBLIC_KEY || 
+                       process.env.REACT_APP_VAPID_PUBLIC_KEY || 
+                       window.VAPID_PUBLIC_KEY;
+      
+      if (!vapidKey) {
+        console.error('VAPID public key is not available');
+        return;
+      }
+      
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: process.env.VAPID_PUBLIC_KEY || process.env.REACT_APP_VAPID_PUBLIC_KEY
+        applicationServerKey: vapidKey
       });
       
       setPushSubscription(subscription);
